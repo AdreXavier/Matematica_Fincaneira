@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UFSCar - Plano de Estudos Intensivo</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .content-section {
+            display: none;
+        }
+        .content-section.active {
+            display: block;
+        }
+        .nav-link {
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        /* Dark Mode Styles */
+        body.dark {
+            background-color: #111827; /* gray-900 */
+            color: #D1D5DB; /* gray-300 */
+        }
+        .dark .nav-link.active {
+            background-color: #3B82F6; /* blue-500 */
+            color: white;
+            font-weight: 600;
+        }
+        .dark .nav-link:hover {
+            background-color: #1F2937; /* gray-800 */
+            color: white;
+        }
+        .dark h2 {
+            color: #60A5FA; /* blue-400 */
+            border-bottom: 2px solid #374151; /* gray-700 */
+            padding-bottom: 0.5rem;
+            margin-bottom: 1.5rem;
+        }
+        .dark h3 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-top: 2rem;
+            margin-bottom: 1rem;
+            color: #93C5FD; /* blue-300 */
+        }
+        .dark p, .dark li {
+            line-height: 1.8;
+            color: #D1D5DB; /* gray-300 */
+        }
+        .dark .formula {
+            background-color: #1F2937;
+            padding: 1.5rem;
+            border-radius: 0.5rem;
+            margin: 1.5rem 0;
+            font-family: monospace;
+            font-size: 1.2rem;
+            color: #93C5FD;
+            border-left: 4px solid #3B82F6;
+            overflow-x: auto;
+        }
+        .dark .glossary-term, .dark .hp12c-guide, .dark .practice-box {
+            background-color: #1F2937; /* gray-800 */
+            border-left: 4px solid #3B82F6;
+            padding: 1.5rem;
+            border-radius: 0.5rem;
+            margin-top: 2.5rem;
+            margin-bottom: 1.5rem;
+        }
+        .dark .practice-box {
+            border-left-color: #10B981; /* emerald-500 */
+        }
+        .dark .practice-box h4 {
+            color: #34D399; /* emerald-400 */
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+        .dark .hp12c-guide strong {
+            color: #FBBF24; /* amber-400 */
+            font-family: monospace;
+        }
+        .dark .hp12c-guide .key {
+             background-color: #374151;
+             color: #FBBF24;
+             padding: 0.1rem 0.4rem;
+             border-radius: 0.25rem;
+             font-weight: bold;
+        }
+        .dark .glossary-term strong {
+            color: #60A5FA; /* blue-400 */
+        }
+        .dark .plan-day {
+            background-color: #1F2937; /* gray-800 */
+            border: 1px solid #374151; /* gray-700 */
+            border-radius: 0.75rem;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+        }
+    </style>
+</head>
+<body class="dark">
+
+    <div class="flex flex-col md:flex-row min-h-screen">
+        <!-- Sidebar de Navegação -->
+        <aside class="w-full md:w-64 bg-[#1F2937] shadow-md">
+            <div class="p-6">
+                <h1 class="text-3xl font-bold text-white">UFSCar</h1>
+                <p class="text-sm text-gray-400">Matemática Financeira</p>
+            </div>
+            <nav class="mt-4">
+                <a class="nav-link block p-4 text-gray-300 active" onclick="showSection('plano-de-estudos')">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 inline-block mr-2" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd" /></svg>
+                    Plano Intensivo
+                </a>
+                <a class="nav-link block p-4 text-gray-300" onclick="showSection('guia-hp12c')">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 inline-block mr-2" viewBox="0 0 20 20" fill="currentColor"><path d="M5 2a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V4a2 2 0 00-2-2H5zm0 2h10v2H5V4zm0 4h2v2H5V8zm4 0h2v2H9V8zm4 0h2v2h-2V8zm-8 4h2v2H5v-2zm4 0h2v2H9v-2zm4 0h2v2h-2v-2z" /></svg>
+                    Guia HP 12C
+                </a>
+                <a class="nav-link block p-4 text-gray-300" onclick="showSection('fundamentos')">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 inline-block mr-2" viewBox="0 0 20 20" fill="currentColor"><path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z" /></svg>
+                    Módulo 1: Fundamentos
+                </a>
+                <a class="nav-link block p-4 text-gray-300" onclick="showSection('anuidades')">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 inline-block mr-2" viewBox="0 0 20 20" fill="currentColor"><path d="M8.433 7.418c.158-.103.346-.196.558-.275a4.014 4.014 0 011.996 0c.212.079.4.172.558.275l4.697 3.076c.26.17.4.469.4.787a.997.997 0 01-1.003.999l-.003-.001H3.36a1 1 0 01-.997-1.002c0-.318.14-.617.4-.787l4.673-3.076zM12 14a1 1 0 100 2h-4a1 1 0 100-2h4z" /></svg>
+                    Módulo 2: Anuidades
+                </a>
+                <a class="nav-link block p-4 text-gray-300" onclick="showSection('amortizacao')">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 inline-block mr-2" viewBox="0 0 20 20" fill="currentColor"><path d="M2 10a8 8 0 018-8v8h8a8 8 0 11-16 0z" /><path d="M12 2.252A8.014 8.014 0 0117.748 8H12V2.252z" /></svg>
+                    Módulo 3: Amortização
+                </a>
+                <a class="nav-link block p-4 text-gray-300" onclick="showSection('investimentos')">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 inline-block mr-2" viewBox="0 0 20 20" fill="currentColor"><path d="M3 12v3c0 1.657 3.134 3 7 3s7-1.343 7-3v-3c0 1.657-3.134 3-7 3s-7-1.343-7-3z" /><path d="M3 7v3c0 1.657 3.134 3 7 3s7-1.343 7-3V7c0 1.657-3.134 3-7 3S3 8.657 3 7z" /><path d="M10 2c-3.866 0-7 1.343-7 3s3.134 3 7 3 7-1.343 7-3-3.134-3-7-3z" /></svg>
+                    Módulo 4: Investimentos
+                </a>
+                <a class="nav-link block p-4 text-gray-300" onclick="showSection('glossario')">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 inline-block mr-2" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M4 4a2 2 0 012-2h4.586A2 2 0 0112 2.586L15.414 6A2 2 0 0116 7.414V16a2 2 0 01-2 2H6a2 2 0 01-2-2V4zm2 6a1 1 0 011-1h6a1 1 0 110 2H7a1 1 0 01-1-1zm1 3a1 1 0 100 2h6a1 1 0 100-2H7z" clip-rule="evenodd" /></svg>
+                    Glossário
+                </a>
+            </nav>
+        </aside>
+
+        <!-- Conteúdo Principal -->
+        <main class="flex-1 p-6 md:p-10 bg-[#111827]">
+
+            <!-- Seção: Plano de Estudos -->
+            <section id="plano-de-estudos" class="content-section active">
+                <h2>Plano de Estudos Intensivo (até 21 de Julho)</h2>
+                <p class="mb-8">Este é um plano de reta final para cobrir todo o conteúdo essencial até o dia da prova. Cada dia tem um foco específico para otimizar seu tempo.</p>
+                <div class="plan-day"><h3 class="text-xl font-bold text-blue-300 mb-2">Dia 1 e 2: Fundamentos e Anuidades</h3><p class="text-gray-400 mb-4"><strong>Foco:</strong> Módulos 1 e 2. Dominar juros compostos, VP, VF e séries de pagamentos é a base para todo o resto.</p><ul class="list-disc list-inside space-y-2"><li><strong>Pratique com os exercícios: 1, 2, 3, 4 e 5 da sua lista.</strong></li></ul></div>
+                <div class="plan-day"><h3 class="text-xl font-bold text-blue-300 mb-2">Dia 3 e 4: Sistemas de Amortização</h3><p class="text-gray-400 mb-4"><strong>Foco:</strong> Módulo 3. Entender as diferenças e os cálculos para os sistemas Price, SAC e Americano.</p><ul class="list-disc list-inside space-y-2"><li>Crie as tabelas de amortização para entender a evolução do saldo, juros e amortização.</li><li><strong>Pratique com os exercícios: 6, 7, 8, 9, 10 e 11 da sua lista.</strong></li></ul></div>
+                <div class="plan-day"><h3 class="text-xl font-bold text-blue-300 mb-2">Dia 5 e 6: Análise de Investimentos</h3><p class="text-gray-400 mb-4"><strong>Foco:</strong> Módulo 4. Aprender a usar VPL, TIR, Payback e VAE para tomar decisões sobre projetos.</p><ul class="list-disc list-inside space-y-2"><li>Concentre-se na regra de decisão de cada método.</li><li><strong>Pratique com os exercícios: 12 a 20 da sua lista.</strong></li></ul></div>
+                <div class="plan-day"><h3 class="text-xl font-bold text-blue-300 mb-2">Dia 7: Revisão Geral</h3><p class="text-gray-400 mb-4"><strong>Foco:</strong> Consolidar o conhecimento e conectar os tópicos.</p><ul class="list-disc list-inside space-y-2"><li>Refaça os exercícios que teve mais dificuldade.</li><li>Leia todos os conceitos do glossário e tente explicá-los com suas palavras.</li></ul></div>
+                <div class="plan-day"><h3 class="text-xl font-bold text-blue-300 mb-2">Dia 8 (Véspera): Revisão Leve</h3><p class="text-gray-400 mb-4"><strong>Foco:</strong> Relaxar a mente e revisar apenas as fórmulas principais.</p><ul class="list-disc list-inside space-y-2"><li>Não tente aprender nada novo. Apenas passe o olho nas fórmulas e conceitos chave.</li><li>Tenha uma boa noite de sono!</li></ul></div>
+            </section>
+
+            <!-- Seção: Guia HP 12C -->
+            <section id="guia-hp12c" class="content-section">
+                <h2>Guia Rápido: HP 12C</h2>
+                <p>A HP 12C é sua maior aliada. Aprender a usar as teclas financeiras vai economizar muito tempo e evitar erros de cálculo.</p>
+                <div class="hp12c-guide">
+                    <h3>Comandos Essenciais</h3>
+                    <ul class="list-disc list-inside space-y-2">
+                        <li>Para limpar os registros financeiros: <span class="key">f</span> <span class="key">FIN</span> (ou <span class="key">f</span> <span class="key">CLX</span>). <strong>Sempre faça isso antes de começar um novo cálculo!</strong></li>
+                        <li>Para mudar o sinal de um número (ex: investimentos): <span class="key">CHS</span> (Change Signal).</li>
+                        <li>Para pagamentos no início do período (antecipado): <span class="key">g</span> <span class="key">BEG</span>. (Aparecerá "BEGIN" na tela).</li>
+                        <li>Para voltar aos pagamentos no fim do período (padrão): <span class="key">g</span> <span class="key">END</span>.</li>
+                    </ul>
+                </div>
+                <div class="hp12c-guide">
+                    <h3>Módulo 1 e 2: Juros Compostos e Anuidades</h3>
+                    <p>Use as 5 teclas da primeira fileira. Você informa os valores que conhece e pede para a calculadora encontrar o que falta.</p>
+                    <p><span class="key">n</span> = número de períodos | <span class="key">i</span> = taxa de juros | <span class="key">PV</span> = Valor Presente | <span class="key">PMT</span> = Prestação | <span class="key">FV</span> = Valor Futuro</p>
+                    <p><strong>Exemplo (Exercício 4):</strong> Entrada de R$4.000, 4 prestações de R$3.845,05, valor à vista de R$18.000. Qual a taxa?</p>
+                    <ol class="list-decimal list-inside mt-4 space-y-2">
+                        <li><span class="key">f</span> <span class="key">FIN</span> (Limpa a memória).</li>
+                        <li>18000 <span class="key">ENTER</span> 4000 <span class="key">-</span> (Calcula o valor financiado). O resultado é 14000.</li>
+                        <li>14000 <span class="key">PV</span> (Armazena o Valor Presente).</li>
+                        <li>3845.05 <span class="key">CHS</span> <span class="key">PMT</span> (Armazena a prestação como saída de caixa).</li>
+                        <li>4 <span class="key">n</span> (Armazena o número de períodos).</li>
+                        <li><span class="key">i</span> (Pede para a calculadora achar a taxa).</li>
+                        <li><strong>Resultado: 3.87% a.m.</strong></li>
+                    </ol>
+                </div>
+                <div class="hp12c-guide">
+                    <h3>Módulo 3: Amortização (Sistema Price)</h3>
+                    <p>A função <span class="key">f</span> <span class="key">AMORT</span> é usada para descobrir os juros e a amortização de uma parcela específica, depois de você já ter calculado a PMT.</p>
+                    <p><strong>Exemplo (Exercício 6):</strong> R$100.000 em 8x, juros de 72% a.a. com cap. mensal. Juros da 6ª parcela?</p>
+                    <ol class="list-decimal list-inside mt-4 space-y-2">
+                        <li>Primeiro, ache a taxa mensal: 72 <span class="key">ENTER</span> 12 <span class="key">/</span>. Resultado: 6.</li>
+                        <li>Agora, calcule a PMT: <span class="key">f</span> <span class="key">FIN</span>, 100000 <span class="key">PV</span>, 8 <span class="key">n</span>, 6 <span class="key">i</span>, <span class="key">PMT</span>. Resultado: -16.103,59.</li>
+                        <li>Para achar os juros da 6ª parcela, digite <span class="key">6</span> <span class="key">f</span> <span class="key">AMORT</span>.</li>
+                        <li>O visor mostrará os juros: <strong>-1.930,56</strong>.</li>
+                        <li>Aperte <span class="key">x<>y</span> para ver a amortização da parcela.</li>
+                    </ol>
+                </div>
+                <div class="hp12c-guide">
+                    <h3>Módulo 4: Análise de Investimentos (VPL e TIR)</h3>
+                    <p>Aqui usamos as teclas de fluxo de caixa (Cash Flow).</p>
+                    <p><span class="key">CFo</span> = Fluxo inicial (Investimento, geralmente negativo) | <span class="key">CFj</span> = Valor de um fluxo de caixa | <span class="key">Nj</span> = Quantas vezes esse fluxo se repete em sequência.</p>
+                    <p><strong>Exemplo (Exercício 12):</strong> Investimento de 15.000, fluxos de 7k, 5k, 3k, 2k, 1k. TMA de 5%.</p>
+                    <ol class="list-decimal list-inside mt-4 space-y-2">
+                        <li><span class="key">f</span> <span class="key">FIN</span> (Limpa a memória).</li>
+                        <li>15000 <span class="key">CHS</span> <span class="key">g</span> <span class="key">CFo</span> (Armazena o investimento inicial).</li>
+                        <li>7000 <span class="key">g</span> <span class="key">CFj</span>.</li>
+                        <li>5000 <span class="key">g</span> <span class="key">CFj</span>.</li>
+                        <li>3000 <span class="key">g</span> <span class="key">CFj</span>.</li>
+                        <li>2000 <span class="key">g</span> <span class="key">CFj</span>.</li>
+                        <li>1000 <span class="key">g</span> <span class="key">CFj</span>.</li>
+                        <li>Para o VPL (NPV): 5 <span class="key">i</span>, <span class="key">f</span> <span class="key">NPV</span>. <strong>Resultado: 1.222,26</strong>.</li>
+                        <li>Para a TIR (IRR): <span class="key">f</span> <span class="key">IRR</span>. <strong>Resultado: 8.15%</strong>.</li>
+                    </ol>
+                </div>
+            </section>
+
+            <!-- Seção: Fundamentos -->
+            <section id="fundamentos" class="content-section">
+                <h2>Módulo 1: Fundamentos do Dinheiro no Tempo</h2>
+                <p>O pilar da matemática financeira é o conceito de que o valor do dinheiro muda com o tempo. R$100 hoje não equivalem a R$100 no futuro devido ao seu potencial de gerar rendimentos (juros). Este módulo explora os mecanismos que governam essa transformação.</p>
+                
+                <h3>Regimes de Capitalização</h3>
+                <p>Capitalização é o processo de adição dos juros ao capital inicial. Existem dois regimes principais:</p>
+                <ul class="list-disc list-inside ml-4">
+                    <li><strong>Juros Simples:</strong> Os juros incidem apenas sobre o capital inicial. É um crescimento linear, pouco comum em operações financeiras de médio/longo prazo.</li>
+                    <li><strong>Juros Compostos:</strong> Os juros de cada período são incorporados ao montante que servirá de base para o cálculo dos juros do período seguinte. É o famoso "juros sobre juros", que gera um crescimento exponencial e é o padrão do mercado. Todas as fórmulas e exercícios da sua lista utilizam este regime.</li>
+                </ul>
+
+                <h3>Valor Futuro (VF) e Valor Presente (VP)</h3>
+                <p>Essas são as duas operações fundamentais:</p>
+                <ul class="list-disc list-inside ml-4">
+                    <li><strong>Capitalizar (achar o VF):</strong> Levar um valor de hoje para uma data futura. A fórmula é: <div class="formula">VF = VP * (1 + i)<sup>n</sup></div></li>
+                    <li><strong>Descontar (achar o VP):</strong> Trazer um valor do futuro para a data presente. A fórmula é: <div class="formula">VP = VF / (1 + i)<sup>n</sup></div></li>
+                </ul>
+
+                <h3>Diagrama de Fluxo de Caixa</h3>
+                <p>É uma representação gráfica essencial para visualizar o problema. Consiste em uma linha horizontal que representa o tempo. Entradas de dinheiro (recebimentos) são setas para cima, e saídas (pagamentos, investimentos) são setas para baixo.</p>
+                
+                <h3>Tipos de Taxas de Juros</h3>
+                <p>É crucial entender as diferentes formas como uma taxa pode ser apresentada:</p>
+                <ul class="list-disc list-inside ml-4">
+                    <li><strong>Taxa Nominal:</strong> Uma taxa anual declarada, mas cuja capitalização ocorre em períodos menores (ex: 12% a.a. com capitalização mensal). Ela não pode ser usada diretamente nos cálculos; precisa ser convertida para uma taxa efetiva.</li>
+                    <li><strong>Taxa Efetiva:</strong> A taxa que realmente incide sobre o capital em cada período de capitalização. É a taxa que usamos nas fórmulas (o 'i'). Para o exemplo acima, a taxa efetiva mensal seria 12%/12 = 1% a.m.</li>
+                    <li><strong>Taxas Equivalentes:</strong> Duas taxas são equivalentes quando, aplicadas a um mesmo capital pelo mesmo prazo, produzem o mesmo montante final. A fórmula para converter uma taxa para um período diferente é: <div class="formula">i<sub>equivalente</sub> = (1 + i<sub>conhecida</sub>)<sup>prazo que eu quero / prazo que eu tenho</sup> - 1</div></li>
+                </ul>
+                
+                <div class="practice-box">
+                    <h4>Hora de Praticar</h4>
+                    <p>Estes conceitos são a base para resolver problemas de equivalência de capitais, onde diferentes fluxos de caixa são comparados em uma mesma data focal.</p>
+                    <ul class="list-disc list-inside mt-2">
+                        <li><strong>Exercício 1:</strong> É um caso clássico de equivalência de capitais. Você deve trazer todos os pagamentos propostos para a data zero (usando a fórmula do VP) e compará-los com a dívida inicial para achar o pagamento final.</li>
+                    </ul>
+                </div>
+            </section>
+
+            <!-- Seção: Anuidades -->
+            <section id="anuidades" class="content-section">
+                <h2>Módulo 2: Séries de Pagamentos (Anuidades)</h2>
+                <p>Uma anuidade, ou série de pagamentos, é uma sequência de fluxos de caixa periódicos e uniformes. É o modelo usado para financiamentos, aposentadorias, etc.</p>
+                
+                <h3>Classificação das Anuidades</h3>
+                <ul class="list-disc list-inside ml-4">
+                    <li><strong>Quanto ao Vencimento:</strong>
+                        <ul>
+                            <li><strong>Postecipadas (Ordinárias):</strong> Os pagamentos ocorrem no <strong>final</strong> de cada período. É o padrão mais comum.</li>
+                            <li><strong>Antecipadas:</strong> Os pagamentos ocorrem no <strong>início</strong> de cada período (ex: aluguel, ou financiamento com entrada).</li>
+                        </ul>
+                    </li>
+                     <li><strong>Quanto ao Prazo:</strong>
+                        <ul>
+                            <li><strong>Temporárias:</strong> Possuem um número finito de pagamentos (a maioria dos casos).</li>
+                            <li><strong>Perpétuas:</strong> Possuem um número infinito de pagamentos (ex: dividendos de certas ações). O VP de uma perpetuidade é simplesmente <strong>VP = PMT / i</strong>.</li>
+                        </ul>
+                    </li>
+                     <li><strong>Quanto à Carência (Diferimento):</strong>
+                        <ul>
+                            <li><strong>Imediatas:</strong> O primeiro pagamento ocorre já no primeiro período (ou no ato, se antecipada).</li>
+                            <li><strong>Diferidas:</strong> Existe um período de carência antes do início dos pagamentos.</li>
+                        </ul>
+                    </li>
+                </ul>
+                
+                <h3>Cálculos Fundamentais</h3>
+                <p>O principal objetivo é encontrar o Valor Presente (VP) ou o Valor Futuro (VF) de toda a série de pagamentos (PMT).</p>
+                <div class="formula">VP (Postecipada) = PMT * [ (1 - (1 + i)<sup>-n</sup>) / i ]</div>
+                <div class="formula">VP (Antecipada) = VP (Postecipada) * (1 + i)</div>
+                <p>Para anuidades diferidas, com uma carência de 'k' períodos, basta calcular o VP da anuidade como se fosse imediata e depois descontar esse valor pelo período da carência:</p>
+                <div class="formula">VP (Diferida) = VP (Imediata) / (1 + i)<sup>k</sup></div>
+
+                <h3>Séries de Pagamentos Variáveis (Gradientes)</h3>
+                <p>Nem todas as séries são uniformes. O exercício 14, por exemplo, menciona custos que crescem em PA e PG. Isso são gradientes.</p>
+                <ul class="list-disc list-inside ml-4">
+                    <li><strong>Gradiente Aritmético:</strong> A prestação aumenta (ou diminui) por um valor fixo (R) a cada período.</li>
+                    <li><strong>Gradiente Geométrico:</strong> A prestação aumenta (ou diminui) por um percentual fixo (g) a cada período.</li>
+                </ul>
+                <p>Os cálculos são mais complexos, mas a HP 12C pode resolvê-los usando os fluxos de caixa individuais.</p>
+
+                <div class="practice-box">
+                    <h4>Hora de Praticar</h4>
+                    <p>Estes exercícios cobrem diferentes tipos e variáveis de anuidades.</p>
+                    <ul class="list-disc list-inside mt-2">
+                        <li><strong>Exercício 2:</strong> Aborda anuidades com carência (2a) e pagamentos não-periódicos (2b), que se resolve trazendo cada fluxo a valor presente individualmente.</li>
+                        <li><strong>Exercício 3:</strong> Pede para encontrar o número de prestações (n).</li>
+                        <li><strong>Exercício 4:</strong> Pede para encontrar a taxa de juros (i).</li>
+                        <li><strong>Exercício 5:</strong> Trata de uma anuidade antecipada (pagamento no ato da compra).</li>
+                    </ul>
+                </div>
+            </section>
+
+            <!-- Seção: Amortização -->
+            <section id="amortizacao" class="content-section">
+                <h2>Módulo 3: Sistemas de Amortização</h2>
+                <p>Amortizar significa extinguir uma dívida através de pagamentos periódicos. Cada prestação (P) é composta por duas partes: Juros (J) e Amortização (A). Ou seja, <strong>P = J + A</strong>.</p>
+                
+                <h3>Sistema Price (Sistema Francês)</h3>
+                <p>Caracteriza-se por ter <strong>prestações constantes</strong>. É o sistema mais comum em financiamentos de bens de consumo.</p>
+                <ul class="list-disc list-inside ml-4">
+                    <li><strong>Prestação (P):</strong> Constante. Calculada pela fórmula da anuidade postecipada.</li>
+                    <li><strong>Juros (J):</strong> Decrescentes. Calculados sobre o saldo devedor do período anterior (J<sub>k</sub> = SD<sub>k-1</sub> * i).</li>
+                    <li><strong>Amortização (A):</strong> Crescentes. Calculada pela diferença A<sub>k</sub> = P - J<sub>k</sub>.</li>
+                    <li><strong>Saldo Devedor (SD):</strong> Decrescente. SD<sub>k</sub> = SD<sub>k-1</sub> - A<sub>k</sub>.</li>
+                </ul>
+
+                <h3>Sistema de Amortização Constante (SAC)</h3>
+                <p>Caracteriza-se por ter <strong>amortizações constantes</strong>. É muito usado em financiamentos imobiliários.</p>
+                 <ul class="list-disc list-inside ml-4">
+                    <li><strong>Amortização (A):</strong> Constante. Calculada como A = VP / n.</li>
+                    <li><strong>Juros (J):</strong> Decrescentes. Calculados sobre o saldo devedor.</li>
+                    <li><strong>Prestação (P):</strong> Decrescentes. Calculada pela soma P<sub>k</sub> = A + J<sub>k</sub>.</li>
+                    <li><strong>Saldo Devedor (SD):</strong> Decresce linearmente.</li>
+                </ul>
+
+                <h3>Sistema de Amortização Americano (SAA)</h3>
+                <p>Neste sistema, o devedor paga periodicamente <strong>apenas os juros</strong> da dívida. O principal (o valor total emprestado) é pago em uma única parcela no final do contrato.</p>
+                <p>Para evitar um desembolso muito grande no final, é comum que o devedor crie um <strong>Fundo de Amortização</strong> (Sinking Fund), que é uma conta de investimento paralela onde são feitos depósitos periódicos para acumular o valor do principal até a data de vencimento.</p>
+                
+                <div class="practice-box">
+                    <h4>Hora de Praticar</h4>
+                    <p>Estes exercícios exploram os principais sistemas de amortização.</p>
+                    <ul class="list-disc list-inside mt-2">
+                        <li><strong>Exercícios 6, 8, 9 e 11:</strong> Focados no Sistema Price, abordando cálculo de juros, amortização, saldo devedor e carência.</li>
+                        <li><strong>Exercício 7:</strong> Focado no Sistema SAC.</li>
+                        <li><strong>Exercício 10:</strong> Focado no Sistema Americano e no conceito de Fundo de Amortização.</li>
+                    </ul>
+                </div>
+            </section>
+
+            <!-- Seção: Investimentos -->
+            <section id="investimentos" class="content-section">
+                <h2>Módulo 4: Análise de Investimentos</h2>
+                <p>Este módulo apresenta as principais ferramentas para avaliar a viabilidade econômica de um projeto, comparando o investimento inicial com os retornos futuros esperados.</p>
+                
+                <h3>Valor Presente Líquido (VPL ou NPV)</h3>
+                <p>O VPL é a soma de todos os fluxos de caixa futuros de um projeto, descontados a uma taxa de juros (a TMA), menos o valor do investimento inicial. Ele representa a riqueza que o projeto gera para o investidor, em valores de hoje.</p>
+                <div class="formula">VPL = Σ [ FC<sub>t</sub> / (1+TMA)<sup>t</sup> ] - Investimento Inicial</div>
+                <p>A <strong>Taxa Mínima de Atratividade (TMA)</strong> é a taxa de retorno mínima que o investidor aceita ganhar. Ela reflete o custo de oportunidade do capital (o que ele ganharia em outro investimento de risco similar).</p>
+                <p><strong>Regra de Decisão:</strong></p>
+                <ul class="list-disc list-inside ml-4">
+                    <li><strong>VPL > 0:</strong> Aceitar. O projeto rende mais que o custo de oportunidade.</li>
+                    <li><strong>VPL < 0:</strong> Rejeitar. O projeto não cobre o custo de oportunidade.</li>
+                    <li><strong>VPL = 0:</strong> Indiferente.</li>
+                </ul>
+
+                <h3>Taxa Interna de Retorno (TIR ou IRR)</h3>
+                <p>A TIR é a taxa de desconto que torna o VPL de um projeto igual a zero. Ela representa a rentabilidade percentual intrínseca do projeto.</p>
+                <p><strong>Regra de Decisão:</strong></p>
+                <ul class="list-disc list-inside ml-4">
+                    <li><strong>TIR > TMA:</strong> Aceitar. A rentabilidade do projeto é maior que o mínimo exigido.</li>
+                    <li><strong>TIR < TMA:</strong> Rejeitar.</li>
+                </ul>
+                <p><strong>Conflito VPL x TIR:</strong> Para projetos mutuamente excludentes, VPL e TIR podem dar rankings diferentes. Nesses casos, <strong>o critério do VPL prevalece</strong>, pois ele mede a geração de riqueza absoluta.</p>
+
+                <h3>Outros Métodos de Análise</h3>
+                <ul class="list-disc list-inside ml-4">
+                    <li><strong>Payback Descontado:</strong> Mede o tempo necessário para que os fluxos de caixa futuros, trazidos a valor presente, recuperem o investimento inicial. É uma medida de risco e liquidez.</li>
+                    <li><strong>Índice de Lucratividade (IL):</strong> É a razão entre o valor presente dos fluxos de caixa futuros e o investimento inicial. Se IL > 1, o projeto é viável.</li>
+                    <li><strong>Valor Anual Equivalente (VAE):</strong> Converte o VPL de um projeto em uma série de pagamentos anuais uniformes. É a ferramenta correta para comparar projetos com <strong>vidas úteis diferentes</strong>. Escolhe-se o projeto com maior VAE.</li>
+                </ul>
+
+                <div class="practice-box">
+                    <h4>Hora de Praticar</h4>
+                    <p>Estes exercícios são para você se tornar um especialista em análise de viabilidade de projetos.</p>
+                    <ul class="list-disc list-inside mt-2">
+                        <li><strong>Exercícios 12, 13, 17, 18 e 19:</strong> Focados em VPL e TIR para avaliar e comparar projetos.</li>
+                        <li><strong>Exercício 13:</strong> Também aborda a Intersecção de Fischer, que é a taxa que iguala o VPL de dois projetos.</li>
+                        <li><strong>Exercícios 14 e 15:</strong> Utilizam o conceito de Custo/Valor Anual Equivalente para comparar alternativas.</li>
+                        <li><strong>Exercício 16:</strong> Questão conceitual sobre a aplicação da TIR e do Payback.</li>
+                        <li><strong>Exercício 20:</strong> Focado no método do Payback.</li>
+                    </ul>
+                </div>
+            </section>
+            
+            <!-- Seção: Glossário -->
+            <section id="glossario" class="content-section">
+                <h2>Glossário Técnico</h2>
+                <div class="glossary-term"><strong>Amortização:</strong> A parte da prestação que efetivamente reduz o saldo devedor (o principal) de uma dívida.</div>
+                <div class="glossary-term"><strong>Anuidade:</strong> Uma série de pagamentos ou recebimentos em intervalos de tempo regulares. Não necessariamente anuais.</div>
+                <div class="glossary-term"><strong>À Vista:</strong> Pagamento integral realizado no momento da transação, na data zero.</div>
+                <div class="glossary-term"><strong>Biênio:</strong> Período de tempo correspondente a dois anos.</div>
+                <div class="glossary-term"><strong>Bimestre:</strong> Período de tempo correspondente a dois meses.</div>
+                <div class="glossary-term"><strong>Capital:</strong> O valor inicial de uma dívida ou investimento. Também chamado de Valor Presente (VP) ou Principal.</div>
+                <div class="glossary-term"><strong>Capitalização:</strong> O ato de adicionar os juros ao capital principal. A frequência com que isso ocorre (diária, mensal, anual) é o período de capitalização.</div>
+                <div class="glossary-term"><strong>Carência:</strong> Período de tempo, no início de um financiamento, durante o qual não há pagamento de prestações (ou paga-se apenas juros).</div>
+                <div class="glossary-term"><strong>Custo Efetivo Total (CET):</strong> A taxa que considera todos os encargos e despesas de uma operação de crédito (juros, taxas, seguros, etc.). É a verdadeira "taxa total" da operação.</div>
+                <div class="glossary-term"><strong>Custo Anual Equivalente (CAE):</strong> Transforma o Custo Presente de um ativo em uma série de pagamentos anuais iguais. Usado para comparar ativos com vidas úteis diferentes.</div>
+                <div class="glossary-term"><strong>Data Focal:</strong> Uma data escolhida arbitrariamente para comparar valores que se encontram em diferentes momentos no tempo. Todos os valores do fluxo de caixa são levados para essa data para se tornarem comparáveis.</div>
+                <div class="glossary-term"><strong>Desconto:</strong> O processo de calcular o valor presente de um montante futuro. O valor do desconto é a diferença entre o valor futuro e o valor presente.</div>
+                <div class="glossary-term"><strong>Fluxo de Caixa (FC):</strong> Sequência de entradas e saídas de dinheiro de um projeto ou investimento ao longo do tempo.</div>
+                <div class="glossary-term"><strong>Fundo de Amortização (Sinking Fund):</strong> Uma poupança criada com depósitos periódicos para acumular um montante específico no futuro, geralmente para quitar o principal de uma dívida no Sistema Americano.</div>
+                <div class="glossary-term"><strong>Índice de Lucratividade (IL):</strong> Mede o retorno para cada unidade de moeda investida. Calculado como (VP dos fluxos de caixa futuros / Investimento Inicial). Se IL > 1, o projeto é viável.</div>
+                <div class="glossary-term"><strong>Intersecção de Fischer:</strong> A taxa de desconto que torna o VPL de dois projetos mutuamente excludentes igual. Ajuda a decidir qual projeto é melhor em diferentes cenários de taxa de juros.</div>
+                <div class="glossary-term"><strong>Juros Pré-fixados:</strong> A taxa de juros é definida no momento da contratação e não se altera ao longo do contrato.</div>
+                <div class="glossary-term"><strong>Juros Pós-fixados:</strong> A taxa de juros está atrelada a um indicador da economia (como a Selic ou o CDI) e varia conforme esse indicador.</div>
+                <div class="glossary-term"><strong>Montante (VF):</strong> O valor final de uma operação financeira, ou seja, Capital + Juros. Também chamado de Valor Futuro.</div>
+                <div class="glossary-term"><strong>Payback:</strong> O tempo necessário para que os retornos de um investimento se igualem ao valor investido inicialmente.</div>
+                <div class="glossary-term"><strong>Prazo:</strong> O tempo total da operação financeira.</div>
+                <div class="glossary-term"><strong>Principal:</strong> O valor inicial do empréstimo ou investimento, sobre o qual os juros são calculados. Sinônimo de Capital ou Valor Presente.</div>
+                <div class="glossary-term"><strong>Projetos Independentes vs. Mutuamente Excludentes:</strong> Independentes podem ser aceitos simultaneamente. Mutuamente excludentes são concorrentes; apenas um pode ser escolhido.</div>
+                <div class="glossary-term"><strong>Quadrimestre:</strong> Período de tempo correspondente a quatro meses.</div>
+                <div class="glossary-term"><strong>Quinzena:</strong> Período de tempo correspondente a quinze dias.</div>
+                <div class="glossary-term"><strong>Saldo Devedor:</strong> O valor que ainda falta pagar de uma dívida em um determinado momento.</div>
+                <div class="glossary-term"><strong>Semestre:</strong> Período de tempo correspondente a seis meses.</div>
+                <div class="glossary-term"><strong>Taxa Efetiva:</strong> A taxa que realmente incide sobre o capital em cada período de capitalização.</div>
+                <div class="glossary-term"><strong>Taxa Mínima de Atratividade (TMA):</strong> A taxa de retorno mínima que um investidor exige para considerar um projeto viável.</div>
+                <div class="glossary-term"><strong>Taxa Nominal:</strong> Taxa de juros declarada para um período, mas cuja capitalização ocorre em outro. Ex: 12% a.a., capitalizados mensalmente.</div>
+                <div class="glossary-term"><strong>Taxa Interna de Retorno (TIR):</strong> A taxa de rentabilidade de um projeto. É a taxa que zera o VPL.</div>
+                <div class="glossary-term"><strong>Trimestre:</strong> Período de tempo correspondente a três meses.</div>
+                <div class="glossary-term"><strong>Valor Anual Equivalente (VAE):</strong> Transforma o VPL de um projeto em uma série de pagamentos anuais iguais.</div>
+                <div class="glossary-term"><strong>Valor Presente Líquido (VPL):</strong> A soma dos valores presentes de todos os fluxos de caixa de um projeto, subtraindo o investimento inicial.</div>
+                <div class="glossary-term"><strong>Valor Residual:</strong> O valor estimado de um ativo ao final de sua vida útil. Em alguns financiamentos (leasing), é o valor a ser pago no final para adquirir o bem.</div>
+            </section>
+        </main>
+    </div>
+
+    <script>
+        function showSection(sectionId) {
+            const sections = document.querySelectorAll('.content-section');
+            sections.forEach(section => {
+                section.classList.remove('active');
+            });
+            const activeSection = document.getElementById(sectionId);
+            if (activeSection) {
+                activeSection.classList.add('active');
+            }
+            const navLinks = document.querySelectorAll('.nav-link');
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+            });
+            const activeLink = document.querySelector(`.nav-link[onclick="showSection('${sectionId}')"]`);
+            if(activeLink) {
+                activeLink.classList.add('active');
+            }
+        }
+    </script>
+
+</body>
+</html>
